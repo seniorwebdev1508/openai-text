@@ -1,0 +1,58 @@
+<html>
+   <head>
+   <meta charset="utf-8">
+   <title>Speech to text</title>
+</head>
+   <body>
+      <div class="speaker" style="display: flex;justify-content: space-between;width: 13rem;box-shadow: 0 0 13px #0000003d;border-radius: 5px;">
+         <p id="action" style="color: grey;font-weight: 800; padding: 0; padding-left: 2rem;"></p>
+         <button onclick="runSpeechRecog()" style="border: transparent;padding: 0 0.5rem;">
+            Speech
+         </button>
+      </div>
+      <h3>The test from your speech below:</h3>
+      <h3 id="output" class="hide"></h3>
+
+      <h3 id="llmresult"></h3>
+      <script>
+         runSpeechRecog = () => {
+            document.getElementById("output").innerHTML = "Loading text...";
+            var output = document.getElementById('output');
+            var action = document.getElementById('action');
+            var llmresult = document.getElementById('llmresult');
+            let recognization = new webkitSpeechRecognition();
+            
+            recognization.onstart = () => {
+               action.innerHTML = "Listening...";
+            }
+
+            recognization.onresult = async (e) => {
+               var transcript = e.results[0][0].transcript;
+               output.innerHTML = transcript;
+               output.classList.remove("hide")
+               action.innerHTML = "";
+
+              var response = await sendMessageToServer(transcript);
+              llmresult.innerHTML = response;
+
+               // Add an event listener to the speak button
+               // Get the text from the text area
+               let text = response;
+
+               // Create a new SpeechSynthesisUtterance object
+               let utterance = new SpeechSynthesisUtterance();
+
+               // Set the text and voice of the utterance
+               utterance.text = text;
+               utterance.voice = window.speechSynthesis.getVoices()[0];
+
+               // Speak the utterance
+               window.speechSynthesis.speak(utterance);
+            }
+            recognization.start();
+         }
+      </script>
+
+    <script src="script.js"></script>
+   </body>
+</html>

@@ -1,0 +1,13 @@
+1. Folk the existing node.js replit code
+2. Install the packages
+2.1 npm install express openai dotenv axios cors --save
+3. Create an App from developer.facebook.com
+3.1 Select Messenger
+3.2 Webhooks - messages & messaging_postbacks
+3.3 Select your page
+4. Create secrets
+4.1 OPENAI_API_KEY - API key from OpenAI
+4.2 PAGE_ID - Copy the Page ID from the facebook developer platform
+4.3 TOKEN - Generate and copy token from the facebook developer platform
+4.4 VERIFY_TOKEN - Put any string (ex.abcd1234)
+5. Run the application and the webview will also open
